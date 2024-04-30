@@ -16,14 +16,14 @@ async def root():
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
-@app.post("/tg_notif")
-async def tg_notif(request: Request):
-    request_body = await request.body()
-    request_body_str = request_body.decode("utf-8")
-    print("Received request:")
-    print(request_body_str)
+# @app.post("/tg_notif")
+# async def tg_notif(request: Request):
+#     request_body = await request.body()
+#     request_body_str = request_body.decode("utf-8")
+#     print("Received request:")
+#     print(request_body_str)
 
-    return {"message": "Notification received"}
+#     return {"message": "Notification received"}
 
 
 @app.post("/tg_notif")
