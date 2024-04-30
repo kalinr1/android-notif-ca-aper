@@ -1,6 +1,6 @@
 import re
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from telethon import TelegramClient
 
