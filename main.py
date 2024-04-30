@@ -16,17 +16,21 @@ async def root():
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
-# @app.post("/tg_notif")
-# async def tg_notif(request: Request):
-#     request_body = await request.body()
-#     request_body_str = request_body.decode("utf-8")
-#     print("Received request:")
-#     print(request_body_str)
-
-#     return {"message": "Notification received"}
-
-
 @app.post("/tg_notif")
+async def tg_notif(request: Request):
+    request_header = request.headers
+    url = request.url
+    request_body = await request.body()
+    request_body_str = request_body.decode("utf-8")
+    print("Received request:")
+    print("Headers:", request_header)
+    print("url:", url)
+    print("Request body:", request_body)
+
+    return {"message": "Notification received"}
+
+
+@app.post("/tg_notif1")
 async def listen_for_post_tg_notif(name: str = Query(...),
                                    pkg: str = Query(...),
                                    title: str = Query(...),
