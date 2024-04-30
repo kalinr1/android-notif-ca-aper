@@ -1,6 +1,6 @@
 import re
 
-from fastapi import FastAPI, Request, Query
+from fastapi import FastAPI, Request, Form
 from pydantic import BaseModel
 from telethon import TelegramClient
 
@@ -26,38 +26,30 @@ async def tg_notif(request: Request):
     print("Headers:", request_header)
     print("url:", url)
     print("Request body:", request_body)
+    
 
     return {"message": "Notification received"}
 
 
-@app.post("/tg_notif1")
-async def listen_for_post_tg_notif(name: str = Query(...),
-                                   pkg: str = Query(...),
-                                   title: str = Query(...),
-                                   text: str = Query(...),
-                                   subtext: str = Query(...),
-                                   bigtext: str = Query(...),
-                                   infotext: str = Query(...)):
-    try:
-        print("received a message " + text)
-        scan_post_for_ca(text)
-    except Exception as e:
-        return {"message": str(e)}
+@app.post("/tg_notifTest")
+async def tg_notif(name: str = Form(...),
+                               pkg: str = Form(...),
+                               title: str = Form(...),
+                               text: str = Form(...),
+                               subtext: str = Form(...),
+                               bigtext: str = Form(...),
+                               infotext: str = Form(...)):
 
-@app.post("/tg_notif2")
-async def listen_for_post_tg_notif(request: Request):
+    # Do something with the extracted data
+    print("Name:", name)
+    print("Package:", pkg)
+    print("Title:", title)
+    print("Text:", text)
+    print("Subtext:", subtext)
+    print("Bigtext:", bigtext)
+    print("Infotext:", infotext)
 
-
-    try:
-        request_body = await request.body()
-        variables = {}
-        for pair in request_body.split("&"):
-            key, value = pair.split("=")
-            variables[key] = value
-
-        print(variables.values())
-    except Exception as e:
-        return {"message": str(e)}
+    return {"message": "Notification received"}
 
 
 def scan_post_for_ca(post_content: str):
