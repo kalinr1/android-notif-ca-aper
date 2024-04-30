@@ -1,6 +1,6 @@
 import re
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Query
 from pydantic import BaseModel
 from telethon import TelegramClient
 
@@ -16,27 +16,25 @@ async def root():
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
-# @app.post("/tg_notif")
-# async def tg_notif(request: Request):
-#     request_body = await request.body()
-#     request_body_str = request_body.decode("utf-8")
-#     print("Received request:")
-#     print(request_body_str)
-# 
-#     return {"message": "Notification received"}
+@app.post("/tg_notif")
+async def tg_notif(request: Request):
+    request_body = await request.body()
+    request_body_str = request_body.decode("utf-8")
+    print("Received request:")
+    print(request_body_str)
+
+    return {"message": "Notification received"}
 
 
 @app.post("/tg_notif")
-async def listen_for_post_tg_notif(request: Request):
+async def listen_for_post_tg_notif(name: str = Query(...),
+                                   pkg: str = Query(...),
+                                   title: str = Query(...),
+                                   text: str = Query(...),
+                                   subtext: str = Query(...),
+                                   bigtext: str = Query(...),
+                                   infotext: str = Query(...)):
     try:
-        data = await request.form()
-        name = data.get("name")
-        pkg = data.get("pkg")
-        title = data.get("title")
-        text = data.get("text")
-        subtext = data.get("subtext")
-        bigtext = data.get("bigtext")
-        infotext = data.get("infotext")
         print("received a message " + text)
         scan_post_for_ca(text)
     except Exception as e:
