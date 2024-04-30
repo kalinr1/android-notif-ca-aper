@@ -44,6 +44,21 @@ async def listen_for_post_tg_notif(name: str = Query(...),
     except Exception as e:
         return {"message": str(e)}
 
+@app.post("/tg_notif2")
+async def listen_for_post_tg_notif(request: Request):
+
+
+    try:
+        request_body = await request.body()
+        variables = {}
+        for pair in request_body.split("&"):
+            key, value = pair.split("=")
+            variables[key] = value
+
+        print(variables.values())
+    except Exception as e:
+        return {"message": str(e)}
+
 
 def scan_post_for_ca(post_content: str):
     ca_pattern = r'\b[a-zA-Z0-9]{32,44}\b'
