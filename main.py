@@ -20,25 +20,13 @@ async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
 
-class Item(BaseModel):
-    name: str
-    pkg: str
-    title: str
-    text: str
-    subtext: str
-    bigtext: str
-    infotext: str
-
 
 @app.post("/test1")
-async def testNotif(item: Item):
-    item.title = unquote(item.title)
-    item.text = unquote(item.text)
-    item.name = unquote(item.name)
-
-    print(item.title)
-    print(item.text)
-    print(item.name)
+async def testNotif(request: Request):
+    
+    request_body = await request.body()
+    print(request_body)
+    
 
 
 @app.post("/tg_notif")
@@ -55,6 +43,7 @@ async def tg_notif(request: Request):
     return {"message": "Notification received"}
 
 
+
 def scan_post_for_ca(post_content: str):
     ca_pattern = r'\b[a-zA-Z0-9]{32,44}\b'
     ca_matches = re.finditer(ca_pattern, post_content)
@@ -63,3 +52,4 @@ def scan_post_for_ca(post_content: str):
         ca_value = match.group()
         print("found a ca " + ca_value)
         # trojan_ape(ca_value)
+
