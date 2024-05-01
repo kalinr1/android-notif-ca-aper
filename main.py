@@ -86,17 +86,7 @@ async def parse_request(request: Request):
     title = unquote(parsed_body['title'][0])
     text = unquote(parsed_body['text'][0])
 
-    print(name)
-    print(pkg)
-    print(title)
-    print(text)
-
-    return {
-        "name": name,
-        "pkg": pkg,
-        "title": title,
-        "text": text
-    }
+    print(title + " " + text)
 
 
 def scan_post_for_ca(post_content: str):
