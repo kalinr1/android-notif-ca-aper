@@ -91,7 +91,7 @@ def scan_post_for_ca(message: str):
     for match in ca_matches:
         ca_value = match.group()
         print("found a ca " + ca_value)
-        send_ca_to_trojan(ca_value)
+        await send_ca_to_trojan(ca_value)
 
 # tg_api_id = 123
 # tg_api_hash = '123'
