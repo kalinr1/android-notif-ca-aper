@@ -81,10 +81,10 @@ async def handle_notifications_from_android(request: Request):
 
     print(chat_and_sender + " " + message)
 
-    scan_post_for_ca(message)
+    await scan_post_for_ca(message)
 
 
-def scan_post_for_ca(message: str):
+async def scan_post_for_ca(message: str):
     ca_pattern = r'\b[a-zA-Z0-9]{32,44}\b'
     ca_matches = re.finditer(ca_pattern, message)
 
