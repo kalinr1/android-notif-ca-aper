@@ -26,7 +26,7 @@ def parse_url_encoded_data(data):
     return decoded_data
 
 
-@app.post('/test1')
+@app.get('/test1')
 async def receive_notification(data: bytes = Form(...)):
     form_data = parse_url_encoded_data(data)
     name = form_data.get('name')
