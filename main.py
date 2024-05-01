@@ -20,13 +20,24 @@ async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
 
+@app.post('/test1')
+async def process_form(name: str = Form(...),
+                       pkg: str = Form(...),
+                       title: str = Form(...),
+                       text: str = Form(...),
+                       subtext: str = Form(...),
+                       bigtext: str = Form(...),
+                       infotext: str = Form(...)):
+    print("name:", name)
+    print("pkg:", pkg)
+    print("title:", title)
+    print("text:", text)
+    print("subtext:", subtext)
+    print("bigtext:", bigtext)
+    print("infotext:", infotext)
 
-@app.post("/test1")
-async def testNotif(request: Request):
-    
-    request_body = await request.body()
-    print(request_body)
-    
+    return {"message": "Form processed successfully"}
+
 
 
 @app.post("/tg_notif")
@@ -44,6 +55,7 @@ async def tg_notif(request: Request):
 
 
 
+
 def scan_post_for_ca(post_content: str):
     ca_pattern = r'\b[a-zA-Z0-9]{32,44}\b'
     ca_matches = re.finditer(ca_pattern, post_content)
@@ -52,4 +64,3 @@ def scan_post_for_ca(post_content: str):
         ca_value = match.group()
         print("found a ca " + ca_value)
         # trojan_ape(ca_value)
-
