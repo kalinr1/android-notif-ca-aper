@@ -1,7 +1,10 @@
 import re
+import urllib
 
 from fastapi import FastAPI, Request, Form
 from pydantic import BaseModel
+from urllib.parse import unquote
+
 from telethon import TelegramClient
 
 app = FastAPI()
@@ -16,6 +19,28 @@ async def root():
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
+
+class Item(BaseModel):
+    name: str
+    pkg: str
+    title: str
+    text: str
+    subtext: str
+    bigtext: str
+    infotext: str
+
+
+@app.post("/test1")
+async def testNotif(item: Item):
+    item.title = unquote(item.title)
+    item.text = unquote(item.text)
+    item.name = unquote(item.name)
+
+    print(item.title)
+    print(item.text)
+    print(item.name)
+
+
 @app.post("/tg_notif")
 async def tg_notif(request: Request):
     request_header = request.headers
@@ -26,28 +51,6 @@ async def tg_notif(request: Request):
     print("Headers:", request_header)
     print("url:", url)
     print("Request body:", request_body)
-    
-
-    return {"message": "Notification received"}
-
-
-@app.post("/tg_notifTest")
-async def tg_notif(name: str = Form(...),
-                               pkg: str = Form(...),
-                               title: str = Form(...),
-                               text: str = Form(...),
-                               subtext: str = Form(...),
-                               bigtext: str = Form(...),
-                               infotext: str = Form(...)):
-
-    # Do something with the extracted data
-    print("Name:", name)
-    print("Package:", pkg)
-    print("Title:", title)
-    print("Text:", text)
-    print("Subtext:", subtext)
-    print("Bigtext:", bigtext)
-    print("Infotext:", infotext)
 
     return {"message": "Notification received"}
 
@@ -60,16 +63,3 @@ def scan_post_for_ca(post_content: str):
         ca_value = match.group()
         print("found a ca " + ca_value)
         # trojan_ape(ca_value)
-
-
-# tg_api_id = 123
-# tg_api_hash = '123'
-#
-# tg_client = TelegramClient('session1', tg_api_id, tg_api_hash)
-#
-# tg_client.connect()
-#
-#
-# async def trojan_ape(ca_value):
-#     await tg_client.send_message("@handle", ca_value)
-#     print("tg message")
