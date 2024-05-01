@@ -19,25 +19,29 @@ async def root():
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
-def parse_url_encoded_data(data):
-    decoded_data = {}
-    for key, value in parse_qs(data.decode()).items():
-        decoded_data[key] = unquote(value[0])
-    return decoded_data
 
+@app.get("/test1")
+async def tg_notif(name: str = Query(...),
+                               pkg: str = Query(...),
+                               title: str = Query(...),
+                               text: str = Query(...),
+                               subtext: str = Query(...),
+                               bigtext: str = Query(...),
+                               infotext: str = Query(...)):
 
-@app.get('/test1')
-async def receive_notification(data: bytes = Form(...)):
-    form_data = parse_url_encoded_data(data)
-    name = form_data.get('name')
-    title = form_data.get('title')
-    text = form_data.get('text')
-
+    # Do something with the extracted data
     print("Name:", name)
+    print("Package:", pkg)
     print("Title:", title)
     print("Text:", text)
+    print("Subtext:", subtext)
+    print("Bigtext:", bigtext)
+    print("Infotext:", infotext)
 
-    return 'Received notification successfully!'
+    return {"message": "Notification received"}
+
+
+
 
 
 
