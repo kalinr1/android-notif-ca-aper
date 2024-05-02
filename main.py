@@ -16,29 +16,6 @@ PHONE_NUMBER = os.getenv('PHONE_NUMBER')
 client = TelegramClient('session_name', API_ID, API_HASH)
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
-
-# @app.on_event("startup")
-# async def startup():
-#     await client.connect()
-#
-#     if not await client.is_user_authorized():
-#         await client.send_code_request(PHONE_NUMBER)
-#         print("Code requested for authorization. Send a post request to authorize your account.")
-#
-#         await client.sign_in(PHONE_NUMBER, input('Enter the code: '))
-#
-#     print("TelegramClient started successfully!")
-
-
 @app.on_event("startup")
 async def startup():
     await client.connect()
@@ -93,69 +70,12 @@ async def scan_post_for_ca(message: str):
         print("found a ca " + ca_value)
         await send_ca_to_trojan(ca_value)
 
-# tg_api_id = 123
-# tg_api_hash = '123'
-#
-# tg_client = TelegramClient('session1', tg_api_id, tg_api_hash)
-#
-# tg_client.connect()
-#
-#
-# async def trojan_ape(ca_value):
-#     await tg_client.send_message("@handle", ca_value)
-#     print("tg message")
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 
-# def parse_url_encoded_data(data):
-#     decoded_data = {}
-#     for key, value in parse_qs(data.decode()).items():
-#         decoded_data[key] = unquote(value[0])
-#     return decoded_data
-#
-#
-# @app.get('/test1')
-# async def receive_notification(data: bytes = Form(...)):
-#     form_data = parse_url_encoded_data(data)
-#     name = form_data.get('name')
-#     title = form_data.get('title')
-#     text = form_data.get('text')
-#
-#     print("Name:", name)
-#     print("Title:", title)
-#     print("Text:", text)
-#
-#     return 'Received notification successfully!'
-#
-#
-# @app.post("/tg_notif")
-# async def tg_notif(request: Request):
-#     request_header = request.headers
-#     url = request.url
-#     request_body = await request.body()
-#     request_body_str = request_body.decode("utf-8")
-#     print("Received request:")
-#     print("Headers:", request_header)
-#     print("url:", url)
-#     print("Request body:", request_body)
-#
-#     return {"message": "Notification received"}
-#
-#
-# @app.get("/test2")
-# async def tg_notif(name: str = Query(...),
-#                    pkg: str = Query(...),
-#                    title: str = Query(...),
-#                    text: str = Query(...),
-#                    subtext: str = Query(...),
-#                    bigtext: str = Query(...),
-#                    infotext: str = Query(...)):
-#     # Do something with the extracted data
-#     print("Name:", name)
-#     print("Package:", pkg)
-#     print("Title:", title)
-#     print("Text:", text)
-#     print("Subtext:", subtext)
-#     print("Bigtext:", bigtext)
-#     print("Infotext:", infotext)
-#
-#     return {"message": "Notification received"}
+@app.get("/hello/{name}")
+async def say_hello(name: str):
+    return {"message": f"Hello {name}"}
