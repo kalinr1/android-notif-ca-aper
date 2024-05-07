@@ -70,6 +70,15 @@ async def scan_post_for_ca(message: str):
         print("found a ca " + ca_value)
         await send_ca_to_trojan(ca_value)
 
+async def scan_post_for_dexscreener_link(message: str):
+    ca_pattern = r'https:\/\/dexscreener.com\/solana\/\w+'
+    ca_matches = re.finditer(ca_pattern, message)
+
+    for match in ca_matches:
+        ca_value = match.group()
+        print("found a ca " + ca_value)
+        await send_ca_to_trojan(ca_value)
+
 
 @app.get("/")
 async def root():
